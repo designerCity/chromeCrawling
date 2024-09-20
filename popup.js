@@ -53,7 +53,7 @@ function injectCrawlerScript() {
     function getXPath(element) {
         let xpath = '';
         let currentElement = element;
-    
+
         // 루트 요소는 'document.documentElement' (즉, 'html')로 설정
         while (currentElement !== document.documentElement) {
             const tagName = currentElement.tagName.toLowerCase();
@@ -62,17 +62,17 @@ function injectCrawlerScript() {
             if (tagName === 'html' || tagName === 'body') {
                 xpath = `/${tagName}${xpath}`;
             } else {
+                // 동일한 부모의 자식 요소 중 같은 태그 이름을 가진 요소의 인덱스 계산
                 const index = Array.from(currentElement.parentNode.children).filter((el) => el.tagName === currentElement.tagName).indexOf(currentElement) + 1;
                 xpath = `/${tagName}[${index}]${xpath}`;
             }
-    
+
             currentElement = currentElement.parentNode;
         }
-    
+
         // 루트 요소 'html'을 포함한 XPath 반환
         return `/html${xpath}`;
     }
-    
 
     // 두 XPath에서 변동되는 부분 앞뒤를 찾아내는 함수
     function findXPathPattern(xpath1, xpath2) {
